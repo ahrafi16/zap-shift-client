@@ -1,109 +1,153 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router';
+import React, { useState } from "react";
+import { Link } from "react-router";
 
+// ─── Nav Links Data ──────────────────────────────────────────────────────────
+const navLinks = [
+    { name: "Services", path: "/services" },
+    { name: "Coverage", path: "/coverage" },
+    { name: "About Us", path: "/about" },
+    { name: "Pricing", path: "/pricing" },
+    { name: "Blog", path: "/blog" },
+    { name: "Contact", path: "/contact" },
+];
+
+// ─── Icons ───────────────────────────────────────────────────────────────────
+const HamburgerIcon = () => (
+    <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+);
+
+const CloseIcon = () => (
+    <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const HamburgerIcon = () => (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-    );
 
-    const CloseIcon = () => (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 18L18 6M6 6l12 12" />
-        </svg>
-    );
-
-    const navLinks = ["Services", "Coverage", "About Us", "Pricing", "Be a Rider"];
-    const SunIcon = () => (
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M7.5 10.39a2.889 2.889 0 1 0 0-5.779 2.889 2.889 0 0 0 0 5.778M7.5 1v.722m0 11.556V14M1 7.5h.722m11.556 0h.723m-1.904-4.596-.511.51m-8.172 8.171-.51.511m-.001-9.192.51.51m8.173 8.171.51.511"
-                stroke="#353535"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-        </svg>
-    );
     return (
-        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-            <header className="flex items-center justify-between px-6 py-3 md:py-4 shadow max-w-5xl rounded-2xl mx-auto w-full bg-white relative">
+        <header className="sticky md:top-7 z-40 w-full ">
+            <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-3 shadow-sm rounded-2xl bg-white">
+
                 {/* Logo */}
-                <Link to="/" className='flex items-end'>
-                    <img
-                        src="/assets/logo.png"
-                    />
-                    <h2 className='text-2xl font-bold'>ZapShift</h2>
+                <Link to="/" className="flex items-end gap-1">
+                    <img src="/assets/logo.png" alt="ZapShift logo" className="h-8 w-auto" />
+                    <span className="text-2xl font-bold leading-none">ZapShift</span>
                 </Link>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8 text-gray-900 text-sm font-normal">
-                    {navLinks.map((link) => (
-                        <a key={link} className="hover:text-primary transition-colors" href="#">
-                            {link}
-                        </a>
+                <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-gray-700">
+                    {navLinks.map(({ name, path }) => (
+                        <Link
+                            key={name}
+                            to={path}
+                            className="hover:text-primary transition-colors"
+                        >
+                            {name}
+                        </Link>
                     ))}
                 </nav>
 
-                {/* Right side actions */}
-                <div className="flex items-center space-x-4">
-                    <Link to="/"
-                        className="hidden md:flex border-2 border-gray-600 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium  transition"
+                {/* Desktop Actions */}
+                <div className="hidden md:flex items-center gap-3">
+                    <Link
+                        to="/signin"
+                        className="border-2 border-gray-500 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition"
                     >
                         Sign In
                     </Link>
-                    <Link to="/"
-                        className="hidden md:flex border-2 border-primary bg-primary px-5 py-2 rounded-lg text-sm font-medium  transition"
+                    <Link
+                        to="/rider"
+                        className="border-2 border-primary bg-primary text-black px-5 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition"
                     >
-                        Be a rider
+                        Be a Rider
                     </Link>
-                    {/* Mobile hamburger */}
-                    <button
-                        className="md:hidden text-gray-600"
-                        onClick={() => setMenuOpen(true)}
-                        aria-label="Open menu"
-                    >
-                        {HamburgerIcon}
-                    </button>
                 </div>
 
-                {/* Mobile Menu Overlay */}
-                <div
-                    className={`md:hidden fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-8 transition-all duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-                        }`}
+                {/* Mobile Hamburger */}
+                <button
+                    className="md:hidden text-gray-600"
+                    onClick={() => setMenuOpen(true)}
+                    aria-label="Open menu"
                 >
-                    {/* Close button */}
-                    <button
-                        className="absolute top-6 right-6 text-gray-600"
-                        onClick={() => setMenuOpen(false)}
-                        aria-label="Close menu"
-                    >
-                        {CloseIcon}
-                    </button>
+                    <HamburgerIcon />
+                </button>
+            </div>
 
-                    {navLinks.map((link) => (
-                        <a
-                            key={link}
-                            href="#"
-                            className="text-gray-900 text-2xl font-medium hover:text-indigo-600 transition-colors"
+            {/* ── Mobile Drawer ─────────────────────────────────────────────────── */}
+            {/* Backdrop */}
+            <div
+                className={`md:hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                    }`}
+                onClick={() => setMenuOpen(false)}
+            />
+
+            {/* Slide-in Panel */}
+            <div
+                className={`md:hidden fixed top-0 right-0 z-50 h-full w-72 bg-white shadow-xl flex flex-col p-8 gap-6 transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
+            >
+                {/* Close Button */}
+                <button
+                    className="self-end text-gray-500 hover:text-gray-800"
+                    onClick={() => setMenuOpen(false)}
+                    aria-label="Close menu"
+                >
+                    <CloseIcon />
+                </button>
+
+                {/* Mobile Nav Links */}
+                <nav className="flex flex-col gap-5">
+                    {navLinks.map(({ name, path }) => (
+                        <Link
+                            key={name}
+                            to={path}
+                            className="text-gray-800 text-lg font-medium hover:text-primary transition-colors"
                             onClick={() => setMenuOpen(false)}
                         >
-                            {link}
-                        </a>
+                            {name}
+                        </Link>
                     ))}
+                </nav>
 
-                    <a
-                        href="#"
-                        className="mt-4 bg-indigo-600 text-white px-8 py-3 rounded-full text-base font-medium hover:bg-indigo-700 transition"
+                {/* Mobile Actions */}
+                <div className="flex flex-col gap-3 mt-auto">
+                    <Link
+                        to="/signin"
+                        className="border-2 border-gray-500 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium text-center hover:bg-gray-50 transition"
                         onClick={() => setMenuOpen(false)}
                     >
-                        Be a rider
-                    </a>
+                        Sign In
+                    </Link>
+                    <Link
+                        to="/rider"
+                        className="border-2 border-primary bg-primary text-black px-5 py-2 rounded-lg text-sm font-medium text-center hover:opacity-90 transition"
+                        onClick={() => setMenuOpen(false)}
+                    >
+                        Be a Rider
+                    </Link>
                 </div>
-            </header>
-        </div>
+            </div>
+        </header>
     );
 };
 

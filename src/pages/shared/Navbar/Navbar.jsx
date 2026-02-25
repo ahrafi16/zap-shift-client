@@ -46,12 +46,12 @@ const Navbar = () => {
 
     return (
         <header className="sticky md:top-7 z-40 w-full ">
-            <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-3 shadow-sm rounded-2xl bg-white">
+            <div className="flex items-center justify-between px-6 py-3 shadow-sm rounded-2xl bg-white">
 
                 {/* Logo */}
                 <Link to="/" className="flex items-end gap-1">
                     <img src="/assets/logo.png" alt="ZapShift logo" className="h-8 w-auto" />
-                    <span className="text-2xl font-bold leading-none">ZapShift</span>
+                    <span className="text-2xl font-extrabold leading-none">ZapShift</span>
                 </Link>
 
                 {/* Desktop Nav */}

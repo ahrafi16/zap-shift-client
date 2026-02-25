@@ -58,13 +58,13 @@ const socialLinks = [
 // ─── Footer ───────────────────────────────────────────────────────────────────
 const Footer = () => {
     return (
-        <div className="bg-gray-100 p-4">
-            <footer className="max-w-5xl mx-auto bg-[#111111] rounded-2xl px-8 py-12 flex flex-col items-center gap-6 text-white">
+        <div className="bg-gray-100">
+            <footer className=" bg-[#111111] rounded-2xl px-8 py-12 flex flex-col items-center gap-6 text-white">
 
                 {/* Logo */}
                 <Link to="/" className="flex items-end gap-1">
                     <img src="/assets/logo.png" alt="ZapShift logo" className="h-8 w-auto" />
-                    <span className="text-2xl font-bold leading-none">ZapShift</span>
+                    <span className="text-2xl font-extrabold leading-none">ZapShift</span>
                 </Link>
 
                 {/* Tagline */}

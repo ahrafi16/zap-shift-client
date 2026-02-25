@@ -1,10 +1,10 @@
 import React from "react";
 
-const ServiceCard = ({ icon: Icon, title, description, highlight }) => {
+const ServiceCard = ({ service }) => {
+    const { title, description, icon: Icon } = service;
     return (
         <div
-            className={`rounded-xl p-6 shadow-md transition duration-300 hover:scale-105 
-      ${highlight ? "bg-[#CAEB66]" : "bg-white"}`}
+            className="rounded-xl p-6 shadow-md transition duration-300 hover:scale-105 hover:bg-[#CAEB66] bg-white text-center justify-items-center"
         >
             <div className="text-4xl mb-4 text-[#03373D]">
                 <Icon />

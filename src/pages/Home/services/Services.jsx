@@ -70,10 +70,7 @@ const Services = () => {
                     {servicesData.map((service, index) => (
                         <ServiceCard
                             key={index}
-                            icon={service.icon}
-                            title={service.title}
-                            description={service.description}
-                            highlight={index === 1} // Only 2nd card highlighted
+                            service={service}
                         />
                     ))}
                 </div>

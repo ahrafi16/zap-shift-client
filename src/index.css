@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
-.primary{
+.primary {
   color: #CAEB66;
 }
-.bg-primary{
+
+.bg-primary {
   background-color: #CAEB66;
 }
-.border-primary{
+
+.border-primary {
   border-color: #CAEB66;
 }
 
-body{
+body {
   background-color: #f3f4f6;
 }
 
@@ -20,4 +22,15 @@ body{
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+.swiper-slide {
+  opacity: 0.4;
+  transform: translateY(40px);
+  transition: all 0.4s ease;
+}
+
+.swiper-slide-active {
+  opacity: 1 !important;
+  transform: translateY(0px) scale(1.05);
 }

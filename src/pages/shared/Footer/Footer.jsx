@@ -58,7 +58,7 @@ const socialLinks = [
 // ─── Footer ───────────────────────────────────────────────────────────────────
 const Footer = () => {
     return (
-        <div className="bg-gray-100">
+        <div className="my-9">
             <footer className=" bg-[#111111] rounded-2xl px-8 py-12 flex flex-col items-center gap-6 text-white">
 
                 {/* Logo */}

@@ -3,22 +3,33 @@ import { Link, Outlet } from "react-router";
 
 const AuthLayout = () => {
     return (
-        <div className="min-h-screen py-9 flex flex-col gap-10">
-            <div>
+        <div className="min-h-screen flex">
+
+            {/* LEFT SIDE */}
+            <div className="w-full md:w-1/2 flex flex-col px-16">
+
                 {/* Logo */}
-                <Link to="/" className="flex items-end gap-1">
+                <Link to="/" className="flex items-end gap-1 mb-10 mt-6">
                     <img src="/assets/logo.png" alt="ZapShift logo" className="h-8 w-auto" />
                     <span className="text-2xl font-extrabold leading-none">ZapShift</span>
                 </Link>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10 md:gap-0 items-center">
-                <div className="flex-1">
-                    <Outlet></Outlet>
+
+                {/* Form Section */}
+                <div className="flex-1 flex items-center justify-center">
+                    <Outlet />
                 </div>
-                <div className="flex-1 h-full bg-[#FAFDF0]">
-                    <img src="/assets/authImage.png" alt="" />
-                </div>
+
             </div>
+
+            {/* RIGHT SIDE */}
+            <div className="hidden md:flex w-1/2 bg-[#FAFDF0] items-center justify-center absolute h-full right-0">
+                <img
+                    src="/assets/authImage.png"
+                    alt=""
+                    className="max-w-md w-full"
+                />
+            </div>
+
         </div>
     );
 };

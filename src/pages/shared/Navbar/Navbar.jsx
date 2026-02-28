@@ -44,7 +44,17 @@ const CloseIcon = () => (
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, logOut } = useAuth();
+
+    const handleSignOut = () => {
+        logOut()
+            .then(() => {
+                console.log("Sign out")
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     return (
         <header className="sticky md:top-7 z-40 w-full ">
@@ -74,6 +84,7 @@ const Navbar = () => {
                     {
                         user ?
                             <button
+                                onClick={handleSignOut}
                                 className="border-2 hover:border-red-900 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-red-500 hover:text-white transition cursor-pointer"
                             >
                                 Sign Out

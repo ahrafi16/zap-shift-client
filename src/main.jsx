@@ -6,6 +6,7 @@ import { router } from './router/router';
 import 'aos/dist/aos.css';
 import Aos from 'aos';
 import AuthProvider from './contexts/AuthContext/AuthProvider';
+import 'leaflet/dist/leaflet.css';
 
 Aos.init();
 

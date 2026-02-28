@@ -1,12 +1,31 @@
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { signInWithGoogle, signIn } = useAuth();
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(res => {
+                console.log(res.user);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     const onSubmit = (data) => {
-        console.log(data);
+        signIn(data.email, data.password)
+            .then((userCredential) => {
+                console.log("After sign in", userCredential.user);
+                alert("Login SuccessFull")
+            })
+            .catch((error) => {
+                console.log(error)
+            });
     }
 
     return (
@@ -86,9 +105,9 @@ const Login = () => {
                 {/* Register */}
                 <p className="text-center text-sm text-gray-500 mt-5">
                     Don’t have any account?{" "}
-                    <span className="text-[#CAEB66] font-medium cursor-pointer hover:underline">
+                    <Link to="/register" className="text-[#CAEB66] font-medium cursor-pointer hover:underline">
                         Register
-                    </span>
+                    </Link>
                 </p>
 
                 {/* Or */}
@@ -101,6 +120,7 @@ const Login = () => {
                 {/* Google Button */}
                 <button
                     type="button"
+                    onClick={handleGoogleSignIn}
                     className="w-full flex items-center justify-center gap-3 py-2 border border-gray-300 rounded-md bg-gray-100 hover:bg-gray-200 transition"
                 >
                     <FcGoogle size={20} />

@@ -1,11 +1,22 @@
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router";
 
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { createUser } = useAuth();
+    const { createUser, signInWithGoogle } = useAuth();
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(res => {
+                console.log(res.user);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     const onSubmit = (data) => {
         createUser(data.email, data.password)
@@ -98,9 +109,9 @@ const Register = () => {
                 {/* Login Redirect */}
                 <p className="text-center text-sm text-gray-500 mt-5">
                     Already have an account?{" "}
-                    <span className="text-[#CAEB66] font-medium cursor-pointer hover:underline">
+                    <Link to="/login" className="text-[#CAEB66] font-medium cursor-pointer hover:underline">
                         Login
-                    </span>
+                    </Link>
                 </p>
 
                 {/* Or */}
@@ -113,6 +124,7 @@ const Register = () => {
                 {/* Google Button */}
                 <button
                     type="button"
+                    onClick={handleGoogleSignIn}
                     className="w-full flex items-center justify-center gap-3 py-2 border border-gray-300 rounded-md bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
                 >
                     <FcGoogle size={20} />

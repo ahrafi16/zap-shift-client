@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
+import useAuth from "../../../hooks/useAuth";
 
 // ─── Nav Links Data ──────────────────────────────────────────────────────────
 const navLinks = [
@@ -43,6 +44,7 @@ const CloseIcon = () => (
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { user } = useAuth();
 
     return (
         <header className="sticky md:top-7 z-40 w-full ">
@@ -69,12 +71,20 @@ const Navbar = () => {
 
                 {/* Desktop Actions */}
                 <div className="hidden md:flex items-center gap-3">
-                    <Link
-                        to="/signin"
-                        className="border-2 border-gray-500 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition"
-                    >
-                        Sign In
-                    </Link>
+                    {
+                        user ?
+                            <button
+                                className="border-2 hover:border-red-900 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-red-500 hover:text-white transition cursor-pointer"
+                            >
+                                Sign Out
+                            </button> :
+                            <Link
+                                to="/login"
+                                className="border-2 border-gray-500 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition"
+                            >
+                                Sign In
+                            </Link>
+                    }
                     <Link
                         to="/rider"
                         className="border-2 border-primary bg-primary text-black px-5 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition"

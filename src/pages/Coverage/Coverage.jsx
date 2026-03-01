@@ -1,6 +1,8 @@
 import { useState } from "react";
 import BangladeshMap from "./BangladeshMap";
 import districts from "../../data/districts";
+import { CiSearch } from "react-icons/ci";
+
 
 const Coverage = () => {
     const [searchText, setSearchText] = useState("");
@@ -38,7 +40,7 @@ const Coverage = () => {
 
                 <button
                     onClick={handleSearch}
-                    className="bg-lime-400 hover:bg-lime-500 px-6 py-2 rounded-full font-semibold"
+                    className="bg-lime-400 cursor-pointer hover:bg-lime-500 px-6 py-2 rounded-full font-semibold"
                 >
                     Search
                 </button>

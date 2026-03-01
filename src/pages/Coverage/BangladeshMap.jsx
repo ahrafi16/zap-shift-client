@@ -28,7 +28,7 @@ const FlyToDistrict = ({ selectedDistrict }) => {
         if (selectedDistrict) {
             map.flyTo(
                 [selectedDistrict.latitude, selectedDistrict.longitude],
-                10, // zoom level
+                14, // zoom level
                 { duration: 1.5 }
             );
         }

@@ -7,7 +7,7 @@ const navLinks = [
     { name: "Services", path: "/services" },
     { name: "Coverage", path: "/coverage" },
     { name: "About Us", path: "/about" },
-    { name: "Pricing", path: "/pricing" },
+    { name: "Send Parcel", path: "/sendParcel" },
     { name: "Blog", path: "/blog" },
     { name: "Contact", path: "/contact" },
 ];

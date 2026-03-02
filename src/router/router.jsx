@@ -8,6 +8,7 @@ import ErrorPage from "../pages/shared/error/ErrorPage";
 import Coverage from "../pages/Coverage/Coverage";
 import SendParcel from "../pages/SendParcel/SendParcel";
 import PrivateRoute from "../routes/PrivateRoute";
+import DashboardLayout from "../layouts/DashboardLayout";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -40,6 +41,15 @@ export const router = createBrowserRouter([
                 path: 'register',
                 Component: Register
             },
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute>
+            <DashboardLayout></DashboardLayout>
+        </PrivateRoute>,
+        children: [
+
         ]
     }
 ]);

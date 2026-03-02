@@ -3,6 +3,7 @@ import { useState } from "react";
 import districts from "../../data/districts";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const generateTrackingId = () => {
     const timestampPart = Date.now().toString().slice(-6); // last 6 digits
@@ -12,8 +13,6 @@ const generateTrackingId = () => {
 
 
 const ParcelForm = () => {
-
-    const { user } = useAuth();
     const {
         register,
         handleSubmit,
@@ -21,6 +20,8 @@ const ParcelForm = () => {
         reset,
         formState: { errors },
     } = useForm();
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
 
     const parcelType = watch("type");
     const weight = watch("weight");
@@ -126,8 +127,14 @@ const ParcelForm = () => {
         };
 
         console.log("Saved to DB:", parcelData);
+        axiosSecure.post('/parcels', parcelData)
+            .then(res => {
+                if (res.data.insertedId) {
+                    Swal.fire("Success!", "Parcel Saved Successfully!", "success");
+                }
+            })
 
-        Swal.fire("Success!", "Parcel Saved Successfully!", "success");
+
 
         reset();
     };

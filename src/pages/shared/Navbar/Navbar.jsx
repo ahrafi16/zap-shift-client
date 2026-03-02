@@ -3,13 +3,20 @@ import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 
 // ─── Nav Links Data ──────────────────────────────────────────────────────────
-const navLinks = [
+// Public Links
+const publicLinks = [
     { name: "Services", path: "/services" },
     { name: "Coverage", path: "/coverage" },
     { name: "About Us", path: "/about" },
     { name: "Send Parcel", path: "/sendParcel" },
     { name: "Blog", path: "/blog" },
     { name: "Contact", path: "/contact" },
+];
+
+// Private Links (future scalable)
+const privateLinks = [
+    { name: "Dashboard", path: "/dashboard" },
+    // future private routes here
 ];
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
@@ -45,6 +52,10 @@ const CloseIcon = () => (
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { user, logOut } = useAuth();
+
+    const navLinks = user
+        ? [...publicLinks, ...privateLinks]
+        : publicLinks;
 
     const handleSignOut = () => {
         logOut()

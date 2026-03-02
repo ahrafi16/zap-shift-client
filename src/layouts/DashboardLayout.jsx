@@ -1,49 +1,116 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { Link, NavLink, Outlet } from "react-router";
 
-const DashboardLayout = ({ children }) => {
+/* ───────── Icons ───────── */
+
+const HamburgerIcon = () => (
+    <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+);
+
+const CloseIcon = () => (
+    <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <path d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
+
+/* ───────── Layout ───────── */
+
+const DashboardLayout = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="relative flex min-h-screen">
-            {/* Sidebar (Drawer-side) */}
+        <div className="relative flex min-h-screen bg-gray-50">
+
+            {/* ───────── Sidebar ───────── */}
             <aside
                 className={`
-          fixed inset-y-0 left-0 z-50 w-80 transform bg-slate-100 p-4 transition-transform duration-300 ease-in-out
-          lg:translate-x-0 lg:static lg:inset-0
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}
+                    fixed inset-y-0 left-0 z-50 w-80 transform bg-white p-6 shadow-lg
+                    transition-transform duration-300 ease-in-out
+                    lg:static lg:translate-x-0 lg:shadow-none
+                    ${isOpen ? "translate-x-0" : "-translate-x-full"}
+                `}
             >
-                <div className="flex flex-col gap-4">
-                    <h2 className="text-xl font-bold">Sidebar</h2>
+                <div className="flex flex-col gap-6 h-full">
+                    {/* Logo */}
+                    <Link to="/" className="flex items-end gap-1">
+                        <img src="/assets/logo.png" alt="ZapShift logo" className="h-8 w-auto" />
+                        <span className="text-2xl font-extrabold leading-none">ZapShift</span>
+                    </Link>
+
                     <ul className="space-y-2">
-                        <li><a className="block rounded p-2 hover:bg-slate-200">Sidebar Item 1</a></li>
-                        <li><a className="block rounded p-2 hover:bg-slate-200">Sidebar Item 2</a></li>
+                        <li>
+                            <NavLink to="/"
+                                className="block rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Dashboard Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/myParcels"
+                                className="block rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                My Parcels
+                            </NavLink>
+                        </li>
+                        <li>
+                            <a
+                                className="block rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Settings
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </aside>
 
-            {/* Overlay for mobile */}
+            {/* ───────── Overlay (Mobile) ───────── */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
                     onClick={() => setIsOpen(false)}
                 />
             )}
 
-            {/* Main Content (Drawer-content) */}
+            {/* ───────── Main Content ───────── */}
             <div className="flex flex-1 flex-col">
-                {/* Navbar-style header for the mobile button */}
-                <header className="flex h-16 items-center border-b px-4 lg:hidden">
+
+                {/* ───────── Mobile Header ───────── */}
+                <header className="flex h-16 items-center justify-between border-b bg-white px-4 lg:hidden">
+                    <h1 className="text-lg font-semibold">Dashboard</h1>
+
                     <button
-                        onClick={() => setIsOpen(true)}
-                        className="rounded-md bg-blue-600 px-4 py-2 text-white"
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="rounded-md p-2 text-gray-700 hover:bg-gray-200 transition"
+                        aria-label="Toggle Menu"
                     >
-                        Open drawer
+                        {isOpen ? <CloseIcon /> : <HamburgerIcon />}
                     </button>
                 </header>
 
-                <main className="flex flex-1 items-center justify-center p-6">
-                    {children || <p>Page content here</p>}
+                {/* ───────── Page Content ───────── */}
+                <main className="flex flex-1 p-6">
+                    <Outlet></Outlet>
                 </main>
             </div>
         </div>

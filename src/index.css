@@ -34,3 +34,7 @@ body {
   opacity: 1 !important;
   transform: translateY(0px) scale(1.05);
 }
+
+th, td {
+   padding: 0.55rem;
+}

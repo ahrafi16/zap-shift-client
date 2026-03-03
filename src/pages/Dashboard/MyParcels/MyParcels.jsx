@@ -2,11 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
 
 const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const { data: parcels = [], isLoading } = useQuery({
         queryKey: ["my-parcels", user?.email],
@@ -56,6 +58,11 @@ const MyParcels = () => {
             }
         });
     };
+
+    // for pay button
+    const handlePay = (id) => {
+        navigate(`/dashboard/payment/${id}`)
+    }
 
     // ── Format Date ───────────────────────────────────────────────────────────
     const formatDate = (timestamp) => {
@@ -131,11 +138,10 @@ const MyParcels = () => {
                                     {/* Payment Status */}
                                     <td>
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                parcel.payment_status === "paid"
-                                                    ? "bg-green-100 text-green-700"
-                                                    : "bg-yellow-100 text-yellow-700"
-                                            }`}
+                                            className={`px-3 py-1 rounded-full text-xs font-medium ${parcel.payment_status === "paid"
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-yellow-100 text-yellow-700"
+                                                }`}
                                         >
                                             {parcel.payment_status}
                                         </span>
@@ -149,7 +155,7 @@ const MyParcels = () => {
                                             </button>
 
                                             {parcel.payment_status === "unpaid" ? (
-                                                <button className="px-3 py-1 text-xs rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer">
+                                                <button onClick={handlePay} className="px-3 py-1 text-xs rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer">
                                                     Pay
                                                 </button>
                                             ) : (

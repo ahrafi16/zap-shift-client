@@ -155,7 +155,7 @@ const MyParcels = () => {
                                             </button>
 
                                             {parcel.payment_status === "unpaid" ? (
-                                                <button onClick={handlePay} className="px-3 py-1 text-xs rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer">
+                                                <button onClick={handlePay(parcel._id)} className="px-3 py-1 text-xs rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer">
                                                     Pay
                                                 </button>
                                             ) : (

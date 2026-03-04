@@ -1,10 +1,14 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { useParams } from "react-router";
 
 
 const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
+    const { parcelId } = useParams();
+    console.log("parcel Id : ", parcelId)
+
     const [error, setError] = useState('');
 
 
@@ -32,6 +36,7 @@ const PaymentForm = () => {
             console.log('Payment method:', paymentMethod)
         }
     }
+
 
     return (
         <div className="w-full">

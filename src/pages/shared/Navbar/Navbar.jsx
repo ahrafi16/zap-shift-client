@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 
 // ─── Nav Links Data ──────────────────────────────────────────────────────────
@@ -53,6 +53,8 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { user, logOut } = useAuth();
 
+    const location = useLocation();
+   
     const navLinks = user
         ? [...publicLinks, ...privateLinks]
         : publicLinks;
@@ -78,12 +80,12 @@ const Navbar = () => {
                 </Link>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-gray-700">
+                <nav className="hidden md:flex items-center text-sm font-medium text-gray-700">
                     {navLinks.map(({ name, path }) => (
                         <Link
                             key={name}
                             to={path}
-                            className="hover:text-primary transition-colors"
+                            className={`hover:bg-[#CAEB66] py-2 px-4 rounded-2xl transition duration-300 ${location.pathname === path ? "bg-[#CAEB66]" : ""}`}
                         >
                             {name}
                         </Link>

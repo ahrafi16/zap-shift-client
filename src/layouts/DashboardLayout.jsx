@@ -100,7 +100,7 @@ const DashboardLayout = () => {
 
                         <li>
                             <NavLink
-                                to="/dashboard/track"
+                                to="/dashboard/trackParcel"
                                 className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
                                 onClick={() => setIsOpen(false)}
                             >

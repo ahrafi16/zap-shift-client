@@ -2,11 +2,16 @@ import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router";
+import axios from "axios";
+import { useState } from "react";
+import useAxios from "../../../hooks/useAxios";
 
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { createUser, signInWithGoogle } = useAuth();
+    const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+    const [profilePic, setProfilePic] = useState('');
+    const axiosInstance = useAxios();
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
@@ -20,12 +25,46 @@ const Register = () => {
 
     const onSubmit = (data) => {
         createUser(data.email, data.password)
-            .then(res => {
+            .then(async (res) => {
                 console.log(res.user)
+
+                // update user info in the database
+                const userInfo = {
+                    email: data.email,
+                    role: 'user',
+                    created_at: new Date().toISOString(),
+                    last_log_in: new Date().toISOString(),
+                }
+
+                const userRes = await axiosInstance.post('/users', userInfo);
+
+                // update user profile in firebase
+                const userProfile = {
+                    displayName: data.name,
+                    photoURL: profilePic
+                }
+                updateUserProfile(userProfile)
+                    .then(() => {
+                        console.log("Profile name & pic updated");
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
             }).catch(err => {
                 console.log(err);
             })
     }
+
+    const handleImageUpload = async (e) => {
+        const image = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', image);
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_image_upload_key}`;
+        const res = await axios.post(imageUploadUrl, formData);
+        setProfilePic(res.data.data.url);
+    }
+
     return (
         <div className="flex items-center w-full justify-center bg-gray-100">
             <div className="w-full max-w-md bg-white p-8 rounded-xl">
@@ -42,6 +81,19 @@ const Register = () => {
                 {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
+                    {/* Image */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Image
+                        </label>
+                        <input
+                            type="file"
+                            onChange={handleImageUpload}
+                            placeholder="Your Profile Picture"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#CAEB66]"
+                        />
+
+                    </div>
                     {/* Name */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">

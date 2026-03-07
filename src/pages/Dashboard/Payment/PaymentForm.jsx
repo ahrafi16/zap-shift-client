@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import useAxiosSecure from "../../../../src/hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../shared/loading/Loading";
+import useAuth from '../../../../src/hooks/useAuth';
 
 
 const PaymentForm = () => {
@@ -12,6 +13,7 @@ const PaymentForm = () => {
     const { parcelId } = useParams();
     const axiosSecure = useAxiosSecure();
     const [error, setError] = useState('');
+    const { user } = useAuth();
 
     const { data: parcelInfo = {}, isPending } = useQuery({
         queryKey: ['parcels', parcelId],
@@ -26,7 +28,7 @@ const PaymentForm = () => {
     }
 
     console.log(parcelInfo);
-    const amount = parcelInfo.delivery_cost;
+    const amount = parcelInfo?.delivery_cost || 0;
     const amountInCents = amount * 100;
     console.log(amountInCents)
 
@@ -64,16 +66,30 @@ const PaymentForm = () => {
             payment_method: {
                 card: elements.getElement(CardElement),
                 billing_details: {
-                    name: "Jenny"
+                    name: user.displayName,
+                    email: user.email
                 }
             }
         });
 
         if (result.error) {
-            console.log(result.error.message);
+            setError(result.error.message);
         } else {
+            setError('');
             if (result.paymentIntent.status === 'succeeded') {
-                console.log("Payment Succeeded!");
+                const paymentData = {
+                    parcelId,
+                    email: user.email,
+                    amount,
+                    transactionId: result.paymentIntent.id,
+                    paymentMethod: result.paymentIntent.payment_method_types
+                }
+
+                const paymentRes = await axiosSecure.post('/payments', paymentData);
+                if (paymentRes.data.insertedId) {
+                    console.log("Payment succeed");
+                    alert("HAHAHHAHH")
+                }
             }
         }
     }
@@ -85,7 +101,7 @@ const PaymentForm = () => {
                 <CardElement className="p-2 border rounded">
 
                 </CardElement>
-                <button className="border-2 border-primary bg-primary text-black px-5 py-2 rounded-lg  font-bold hover:opacity-90 transition cursor-pointer w-full" type="submit" disabled={!stripe}>
+                <button className="border-2 border-primary bg-primary text-black px-5 py-2 rounded-lg  font-bold hover:opacity-90 transition cursor-pointer w-full" type="submit" disabled={!stripe || !elements}>
                     Pay  ৳{amount}
                 </button>
                 {

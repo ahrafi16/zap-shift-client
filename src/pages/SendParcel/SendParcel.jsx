@@ -122,7 +122,7 @@ const ParcelForm = () => {
             tracking_id: generateTrackingId(),
             creation_timestamp: new Date().toISOString(),  // ISO format (best practice)
             creation_unix: Date.now(),                     // optional but useful
-            delivery_tatus: "not_collected",
+            delivery_status: "not_collected",
             payment_status: "unpaid",
         };
 

@@ -1,10 +1,11 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../../../src/hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../shared/loading/Loading";
 import useAuth from '../../../../src/hooks/useAuth';
+import Swal from "sweetalert2";
 
 
 const PaymentForm = () => {
@@ -14,6 +15,7 @@ const PaymentForm = () => {
     const axiosSecure = useAxiosSecure();
     const [error, setError] = useState('');
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const { data: parcelInfo = {}, isPending } = useQuery({
         queryKey: ['parcels', parcelId],
@@ -77,18 +79,37 @@ const PaymentForm = () => {
         } else {
             setError('');
             if (result.paymentIntent.status === 'succeeded') {
+                const transactionId = result.paymentIntent.id;
                 const paymentData = {
                     parcelId,
                     email: user.email,
                     amount,
-                    transactionId: result.paymentIntent.id,
+                    transactionId: transactionId,
                     paymentMethod: result.paymentIntent.payment_method_types
                 }
 
                 const paymentRes = await axiosSecure.post('/payments', paymentData);
                 if (paymentRes.data.insertedId) {
                     console.log("Payment succeed");
-                    alert("HAHAHHAHH")
+
+
+                    // Clear the card form
+                    const cardElement = elements.getElement(CardElement);
+                    if (cardElement) {
+                        cardElement.clear();
+                    }
+
+                    await Swal.fire({
+                        icon: "success",
+                        title: "Payment Successful!",
+                        text: "Your payment has been completed successfully.",
+                        confirmButtonText: "OK",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+
+                    navigate('/dashboard/myParcels');
+
                 }
             }
         }

@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router";
+import {
+    HiOutlineHome,
+    HiOutlineArchiveBox,
+    HiOutlineCreditCard,
+    HiOutlineMagnifyingGlass,
+    HiOutlineUserCircle,
+    HiOutlineCog6Tooth
+} from "react-icons/hi2";
 
 /* ───────── Icons ───────── */
 
@@ -56,30 +64,72 @@ const DashboardLayout = () => {
                     </Link>
 
                     <ul className="space-y-2">
+
                         <li>
-                            <NavLink to="/"
-                                className="block rounded p-2 hover:bg-gray-100 transition"
+                            <NavLink
+                                to="/"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
                                 onClick={() => setIsOpen(false)}
                             >
+                                <HiOutlineHome size={20} />
                                 Dashboard Home
                             </NavLink>
                         </li>
+
                         <li>
-                            <NavLink to="/dashboard/myParcels"
-                                className="block rounded p-2 hover:bg-gray-100 transition"
+                            <NavLink
+                                to="/dashboard/myParcels"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
                                 onClick={() => setIsOpen(false)}
                             >
+                                <HiOutlineArchiveBox size={20} />
                                 My Parcels
                             </NavLink>
                         </li>
+
                         <li>
-                            <a
-                                className="block rounded p-2 hover:bg-gray-100 transition"
+                            <NavLink
+                                to="/dashboard/paymentHistory"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
                                 onClick={() => setIsOpen(false)}
                             >
+                                <HiOutlineCreditCard size={20} />
+                                Payment History
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink
+                                to="/dashboard/track"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <HiOutlineMagnifyingGlass size={20} />
+                                Track a Package
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink
+                                to="/dashboard/updateProfile"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <HiOutlineUserCircle size={20} />
+                                Update Profile
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <a
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <HiOutlineCog6Tooth size={20} />
                                 Settings
                             </a>
                         </li>
+
                     </ul>
                 </div>
             </aside>

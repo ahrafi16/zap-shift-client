@@ -15,8 +15,17 @@ const Register = () => {
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
-            .then(res => {
-                console.log(res.user);
+            .then(async (res) => {
+                const user = res.user;
+                // update user info in the database
+                const userInfo = {
+                    email: user.email,
+                    role: 'user',
+                    created_at: new Date().toISOString(),
+                    last_log_in: new Date().toISOString(),
+                }
+                const userRes = await axiosInstance.post('/users', userInfo);
+                console.log(userRes.data);
             })
             .catch(error => {
                 console.log(error);
@@ -37,7 +46,7 @@ const Register = () => {
                 }
 
                 const userRes = await axiosInstance.post('/users', userInfo);
-
+                console.log(userRes.data);
                 // update user profile in firebase
                 const userProfile = {
                     displayName: data.name,

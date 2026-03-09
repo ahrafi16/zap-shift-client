@@ -9,7 +9,7 @@ const publicLinks = [
     { name: "Coverage", path: "/coverage" },
     { name: "About Us", path: "/about" },
     { name: "Send Parcel", path: "/sendParcel" },
-    { name: "Blog", path: "/blog" },
+    { name: "Be A Rider", path: "/beARider" },
     { name: "Contact", path: "/contact" },
 ];
 
@@ -54,7 +54,7 @@ const Navbar = () => {
     const { user, logOut } = useAuth();
 
     const location = useLocation();
-   
+
     const navLinks = user
         ? [...publicLinks, ...privateLinks]
         : publicLinks;

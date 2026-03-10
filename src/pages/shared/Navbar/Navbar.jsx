@@ -9,7 +9,7 @@ const publicLinks = [
     { name: "Coverage", path: "/coverage" },
     { name: "About Us", path: "/about" },
     { name: "Send Parcel", path: "/sendParcel" },
-    { name: "Be A Rider", path: "/beARider" },
+    // { name: "Be A Rider", path: "/beARider" },
     { name: "Contact", path: "/contact" },
 ];
 
@@ -110,7 +110,7 @@ const Navbar = () => {
                             </Link>
                     }
                     <Link
-                        to="/rider"
+                        to="/beARider"
                         className="border-2 border-primary bg-primary text-black px-5 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition"
                     >
                         Be a Rider

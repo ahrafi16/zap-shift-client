@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { FiEye, FiCheckCircle, FiXCircle } from "react-icons/fi";
+import { FiEye, FiCheckCircle, FiXCircle, FiX } from "react-icons/fi";
+import Loading from "../../shared/loading/Loading";
 
 const PendingRiders = () => {
 
@@ -17,50 +18,28 @@ const PendingRiders = () => {
         }
     });
 
-    // Accept Rider
-    const handleAccept = async (rider) => {
+    // approve or reject rider funciton
+    const handleDecision = async (rider, status) => {
 
         const result = await Swal.fire({
-            title: "Approve Rider?",
-            text: "This rider will become active.",
+            title: status === "approve" ? "Approve Rider?" : "Reject Rider?",
             icon: "question",
             showCancelButton: true,
-            confirmButtonText: "Accept"
+            confirmButtonText: "Confirm"
         });
 
         if (result.isConfirmed) {
 
-            await axiosSecure.patch(`/riders/approve/${rider._id}`);
-
-            Swal.fire("Approved!", "Rider is now active.", "success");
-
-            refetch();
-        }
-    };
-
-    // Reject Rider
-    const handleReject = async (rider) => {
-
-        const result = await Swal.fire({
-            title: "Reject Rider?",
-            text: "This application will be cancelled.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Reject"
-        });
-
-        if (result.isConfirmed) {
-
-            await axiosSecure.patch(`/riders/reject/${rider._id}`);
-
-            Swal.fire("Rejected!", "Rider application rejected.", "success");
+            await axiosSecure.patch(`/riders/${rider._id}/status`, {
+                status
+            });
 
             refetch();
         }
     };
 
     if (isLoading) {
-        return <p className="text-center mt-10">Loading riders...</p>;
+        return <Loading></Loading>
     }
 
     return (
@@ -102,7 +81,7 @@ const PendingRiders = () => {
                                 <td className="flex items-center gap-4 text-xl">
 
                                     <button
-                                        onClick={() => { setSelectedRider(rider)}}
+                                        onClick={() => { setSelectedRider(rider) }}
                                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                                         title="View Details"
                                     >
@@ -110,16 +89,16 @@ const PendingRiders = () => {
                                     </button>
 
                                     <button
-                                        onClick={() => handleAccept(rider)}
-                                        className="text-green-500 cursor-pointer hover:text-green-700"
+                                        onClick={() => handleDecision(rider, "approve")}
+                                        className="text-green-500 hover:text-green-700"
                                         title="Approve Rider"
                                     >
                                         <FiCheckCircle />
                                     </button>
 
                                     <button
-                                        onClick={() => handleReject(rider)}
-                                        className="text-red-500 cursor-pointer hover:text-red-700"
+                                        onClick={() => handleDecision(rider, "reject")}
+                                        className="text-red-500 hover:text-red-700"
                                         title="Reject Rider"
                                     >
                                         <FiXCircle />
@@ -140,59 +119,65 @@ const PendingRiders = () => {
             {/* Rider Details Modal */}
 
             {selectedRider && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-                <dialog id="rider_modal" className="modal modal-open">
+                    <div className="bg-white w-full max-w-2xl rounded-lg shadow-lg p-6 relative">
 
-                    <div className="modal-box">
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setSelectedRider(null)}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl"
+                        >
+                            <FiX />
+                        </button>
 
-                        <h3 className="text-lg font-bold mb-4">
+                        <h2 className="text-2xl font-bold mb-6 text-center">
                             Rider Details
-                        </h3>
+                        </h2>
 
-                        <div className="space-y-2">
+                        <div className="grid grid-cols-2 gap-4 text-sm">
 
-                            <p><b>Name:</b> {selectedRider.name}</p>
-                            <p><b>Email:</b> {selectedRider.email}</p>
-                            <p><b>Phone:</b> {selectedRider.phone}</p>
-                            <p><b>NID:</b> {selectedRider.nid}</p>
-                            <p><b>Driving License:</b> {selectedRider.drivingLicense}</p>
-                            <p><b>Region:</b> {selectedRider.region}</p>
-                            <p><b>District:</b> {selectedRider.district}</p>
-                            <p><b>Bike Brand:</b> {selectedRider.bikeBrand}</p>
-                            <p><b>Bike Registration:</b> {selectedRider.bikeRegistration}</p>
-                            <p><b>About:</b> {selectedRider.about}</p>
+                            <p><span className="font-semibold">Name:</span> {selectedRider.name}</p>
+                            <p><span className="font-semibold">Email:</span> {selectedRider.email}</p>
+
+                            <p><span className="font-semibold">Phone:</span> {selectedRider.phone}</p>
+                            <p><span className="font-semibold">NID:</span> {selectedRider.nid}</p>
+
+                            <p><span className="font-semibold">Driving License:</span> {selectedRider.drivingLicense}</p>
+                            <p><span className="font-semibold">Region:</span> {selectedRider.region}</p>
+
+                            <p><span className="font-semibold">District:</span> {selectedRider.district}</p>
+                            <p><span className="font-semibold">Bike Brand:</span> {selectedRider.bikeBrand}</p>
+
+                            <p><span className="font-semibold">Bike Registration:</span> {selectedRider.bikeRegistration}</p>
+
+                            <p className="col-span-2">
+                                <span className="font-semibold">About:</span> {selectedRider.about}
+                            </p>
 
                         </div>
 
-                        <div className="modal-action">
+                        <div className="flex justify-center gap-6 mt-8">
 
                             <button
-                                onClick={() => handleAccept(selectedRider)}
-                                className="btn btn-success cursor-pointer"
+                                onClick={() => handleDecision(selectedRider, "approve")}
+                                className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                             >
-                                Accept
+                                <FiCheckCircle /> Approve
                             </button>
 
                             <button
-                                onClick={() => handleReject(selectedRider)}
-                                className="btn btn-error cursor-pointer"
+                                onClick={() => handleDecision(selectedRider, "reject")}
+                                className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
                             >
-                                Reject
-                            </button>
-
-                            <button
-                                onClick={() => setSelectedRider(null)}
-                                className="btn cursor-pointer"
-                            >
-                                Close
+                                <FiXCircle /> Reject
                             </button>
 
                         </div>
 
                     </div>
 
-                </dialog>
-
+                </div>
             )}
 
         </div>

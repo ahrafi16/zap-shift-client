@@ -6,7 +6,9 @@ import {
     HiOutlineCreditCard,
     HiOutlineMagnifyingGlass,
     HiOutlineUserCircle,
-    HiOutlineCog6Tooth
+    HiOutlineCog6Tooth,
+    HiOutlineUserGroup,
+    HiOutlineClock
 } from "react-icons/hi2";
 
 /* ───────── Icons ───────── */
@@ -117,6 +119,27 @@ const DashboardLayout = () => {
                             >
                                 <HiOutlineUserCircle size={20} />
                                 Update Profile
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/dashboard/activeRiders"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <HiOutlineUserGroup size={20} />
+                                Active Riders
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink
+                                to="/dashboard/pendingRiders"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <HiOutlineClock size={20} />
+                                Pending Riders
                             </NavLink>
                         </li>
 

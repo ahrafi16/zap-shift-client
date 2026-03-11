@@ -19,10 +19,10 @@ const PendingRiders = () => {
     });
 
     // approve or reject rider funciton
-    const handleDecision = async (rider, status) => {
+    const handleDecision = async (rider, status, email) => {
 
         const result = await Swal.fire({
-            title: status === "approve" ? "Approve Rider?" : "Reject Rider?",
+            title: status === "active" ? "Approve Rider?" : "Reject Rider?",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Confirm"
@@ -31,7 +31,8 @@ const PendingRiders = () => {
         if (result.isConfirmed) {
 
             await axiosSecure.patch(`/riders/${rider._id}/status`, {
-                status
+                status,
+                email
             });
 
             refetch();
@@ -89,7 +90,7 @@ const PendingRiders = () => {
                                     </button>
 
                                     <button
-                                        onClick={() => handleDecision(rider, "approve")}
+                                        onClick={() => handleDecision(rider, "active", rider.email)}
                                         className="text-green-500 hover:text-green-700"
                                         title="Approve Rider"
                                     >
@@ -97,7 +98,7 @@ const PendingRiders = () => {
                                     </button>
 
                                     <button
-                                        onClick={() => handleDecision(rider, "reject")}
+                                        onClick={() => handleDecision(rider, "reject", rider.email)}
                                         className="text-red-500 hover:text-red-700"
                                         title="Reject Rider"
                                     >
@@ -160,14 +161,14 @@ const PendingRiders = () => {
                         <div className="flex justify-center gap-6 mt-8">
 
                             <button
-                                onClick={() => handleDecision(selectedRider, "approve")}
+                                onClick={() => handleDecision(selectedRider, "active", selectedRider.email)}
                                 className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                             >
                                 <FiCheckCircle /> Approve
                             </button>
 
                             <button
-                                onClick={() => handleDecision(selectedRider, "reject")}
+                                onClick={() => handleDecision(selectedRider, "reject", selectedRider.email)}
                                 className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
                             >
                                 <FiXCircle /> Reject

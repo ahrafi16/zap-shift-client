@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 import useAxios from "../../../hooks/useAxios";
@@ -12,6 +12,10 @@ const Register = () => {
     const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
     const [profilePic, setProfilePic] = useState('');
     const axiosInstance = useAxios();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || '/';
+
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
@@ -26,6 +30,7 @@ const Register = () => {
                 }
                 const userRes = await axiosInstance.post('/users', userInfo);
                 console.log(userRes.data);
+                navigate(from);
             })
             .catch(error => {
                 console.log(error);
@@ -55,6 +60,7 @@ const Register = () => {
                 updateUserProfile(userProfile)
                     .then(() => {
                         console.log("Profile name & pic updated");
+                        navigate(from);
                     })
                     .catch(error => {
                         console.log(error);

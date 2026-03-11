@@ -5,10 +5,10 @@ import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 
 const Login = () => {
-    const location = useLocation();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { signInWithGoogle, signIn } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     const from = location.state?.from || '/';
     const axiosInstance = useAxios();
 

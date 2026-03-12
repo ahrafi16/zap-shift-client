@@ -44,7 +44,7 @@ const ManageAdmins = () => {
     };
 
     return (
-        <div className="p-6">
+        <div className="p-6 w-full">
 
             <h2 className="text-2xl font-bold mb-6">
                 Manage Admins
@@ -66,7 +66,7 @@ const ManageAdmins = () => {
 
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-4 rounded flex items-center gap-2"
+                    className="border-2 flex items-center gap-2 border-primary bg-primary text-black px-5 py-2 rounded-lg text-sm font-medium text-center hover:opacity-90 transition cursor-pointer"
                 >
                     <FiSearch /> Search
                 </button>
@@ -101,7 +101,7 @@ const ManageAdmins = () => {
                                 </td>
 
                                 <td className="border p-2">
-                                    {user.created_at}
+                                    {new Date(user.created_at).toLocaleDateString("en-GB")}
                                 </td>
 
                                 <td className="border p-2 capitalize">
@@ -128,7 +128,7 @@ const ManageAdmins = () => {
                                             onClick={() =>
                                                 handleRoleChange(user, "admin")
                                             }
-                                            className="text-green-600 text-xl"
+                                            className="text-green-600 text-xl cursor-pointer"
                                             title="Make Admin"
                                         >
                                             <FiUserCheck />

@@ -142,6 +142,16 @@ const DashboardLayout = () => {
                                 Pending Riders
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink
+                                to="/dashboard/manageAdmins"
+                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <HiOutlineUserGroup size={20} />
+                                Manage Admins
+                            </NavLink>
+                        </li>
 
                         <li>
                             <a

@@ -10,6 +10,7 @@ import {
     HiOutlineUserGroup,
     HiOutlineClock
 } from "react-icons/hi2";
+import useUserRole from "../hooks/useUserRole";
 
 /* ───────── Icons ───────── */
 
@@ -45,6 +46,7 @@ const CloseIcon = () => (
 
 const DashboardLayout = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { roleLoading, role } = useUserRole();
 
     return (
         <div className="relative flex min-h-screen bg-gray-50">
@@ -121,37 +123,41 @@ const DashboardLayout = () => {
                                 Update Profile
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink
-                                to="/dashboard/activeRiders"
-                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <HiOutlineUserGroup size={20} />
-                                Active Riders
-                            </NavLink>
-                        </li>
+                        {!roleLoading && role === 'admin' &&
+                            <>
+                                <li>
+                                    <NavLink
+                                        to="/dashboard/activeRiders"
+                                        className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <HiOutlineUserGroup size={20} />
+                                        Active Riders
+                                    </NavLink>
+                                </li>
 
-                        <li>
-                            <NavLink
-                                to="/dashboard/pendingRiders"
-                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <HiOutlineClock size={20} />
-                                Pending Riders
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/dashboard/manageAdmins"
-                                className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <HiOutlineUserGroup size={20} />
-                                Manage Admins
-                            </NavLink>
-                        </li>
+                                <li>
+                                    <NavLink
+                                        to="/dashboard/pendingRiders"
+                                        className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <HiOutlineClock size={20} />
+                                        Pending Riders
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/dashboard/manageAdmins"
+                                        className="flex items-center gap-2 rounded p-2 hover:bg-gray-100 transition"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <HiOutlineUserGroup size={20} />
+                                        Manage Admins
+                                    </NavLink>
+                                </li>
+                            </>
+                        }
 
                         <li>
                             <a

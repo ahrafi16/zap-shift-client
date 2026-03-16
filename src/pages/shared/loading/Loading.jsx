@@ -2,7 +2,7 @@
 
 const Loading = () => {
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex w-full items-center justify-center min-h-screen">
             <div
                 className="relative w-32 h-32 text-[#002D5A]"
                 aria-label="Loading"
